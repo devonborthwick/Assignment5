@@ -37,15 +37,16 @@ require(
                         position: {
                             x: -105.58077771278067,
                             y: 41.31403134536375, 
-                            z: 3000000,
+                            z: 2000000,
                             spatialReference: {
                                 wkid: 4326
     
                             }
                         },
                         heading: 0,
-                        tilt: 0
+                        tilt: 10,
                     },
+                 
                     popup: {
                         dockEnabled: true,
                         dockOptions: {
@@ -55,16 +56,13 @@ require(
                     // enable shadows to be cast from the features
                     environment: {
                         lighting: {
-                            directShadowsEnabled: false
-                        }
-                    }
-                })
+                            type: "sun"
+                        },
+                        atmosphereEnabled: true
+                      
+                }})
                 const searchWidget = new Search({
                     view: view,
-                  
-                    
-                    
-          
                   });
                   view.ui.add(searchWidget, {
                     position: "top-right"
@@ -108,7 +106,7 @@ require(
                   
                     graphicsLayer.featureReduction = {
                         type: "selection",
-                        selectionRadius: "200px",
+                        selectionRadius: "80px",
           // defines the label within each cluster
           labelingInfo: [
             {
@@ -146,11 +144,13 @@ require(
                 return {
            
                 };
+                map.addLayer(pointLayer);
+                
+
             
             })()
-        })
-      
-    });
+            })
+            });
 
 
     
