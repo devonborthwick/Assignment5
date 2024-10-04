@@ -61,12 +61,7 @@ require(
                         atmosphereEnabled: true
                       
                 }})
-                const searchWidget = new Search({
-                    view: view,
-                  });
-                  view.ui.add(searchWidget, {
-                    position: "top-right"
-                  });
+              
                 const initMap = function(){
                
                    
@@ -103,7 +98,19 @@ require(
                           graphicsLayer.add(pointGraphic);
                   
                     }
-                  
+                    graphicsLayer.on("click", (event) => {
+                      view.animateTo({
+                        center: event.graphic.geometry,
+                        scale: 100000 })})
+                        
+                  const pointIndex = 0; // Replace with the desired index
+const pointGraphic = graphicsLayer.graphics[pointIndex];
+const pointGeometry = pointGraphic.geometry;
+
+view.animateTo({
+  center: pointGeometry,
+  scale: 100000 // Adjust the scale as needed
+});
                     graphicsLayer.featureReduction = {
                         type: "selection",
                         selectionRadius: "80px",
@@ -137,8 +144,31 @@ require(
                     }
                 }]
                 }}
-            };
-           
+                const sources = [{
+                    layer: graphicsLayer,
+                    placeholder: "Places",
+                    searchFields: ["placename"],
+                    name: "Vacation Spots",
+                    exactMatch: false,
+                    zoomScale: 1000
+                   }
+    
+                   ]
+              
+                    const searchWidget = new Search({
+                        view: view,
+                        sources: sources,
+                        
+                        
+                      });
+                      view.ui.add(searchWidget, {
+                        position: "top-right"
+                      });
+                   
+                    
+                    };
+                  
+                    
                 
                 initMap()
                 return {
