@@ -87,12 +87,12 @@ require([
           });
 
           graphicsLayer.add(pointGraphic);
-          zoomToPoint(pointGraphic); 
+           
         }
 
         graphicsLayer.featureReduction = {
           type: "selection",
-          selectionRadius: "80px",
+          selectionRadius: 100,
           labelingInfo: [
             {
               deconflictionStrategy: "none",
@@ -121,22 +121,39 @@ require([
                 digitSeparator: true
                     }
                 }]
-                }}
-                const sources = [{
+                }};
+                const source = [{
                     layer: graphicsLayer,
-                    placeholder: "Places",
-                    searchFields: ["placename"],
-                    name: "Vacation Spots",
-                    exactMatch: false,
-                    zoomScale: 1000
-                   }
-    
-                   ]
+                    name: "Vacation Spots"
+                    
+              
+                   }];
+                   
+                   view.on("click", function(event) {
+                    view.hitTest(event).then(function(response) {
+                      if (response.results.length) {
+                        const graphic = response.results.filter(result => result.graphic.geometry.type === "point")[0].graphic;
+                        if (graphic) {
+                          view.goTo({
+                            target: graphic.geometry, 
+                            zoom: 15 // Adjust the zoom level as needed
+                          })
+                        }
+                      }
+                    })
+                  })
               
                     const searchWidget = new Search({
                         view: view,
-                        sources: sources,
-                        
+                        sources: source,
+                        placeholder: "Places",
+                        searchFields: ["placename", "city", "country"],
+                        displayField: "placename",
+                        outFields: ["placename", "city", "country"],
+                        exactMatch: false,
+                        zoomScale: 900,
+                        suggestionsEnabled: true,
+                        minSuggestCharacters: 0
                         
                       });
                       view.ui.add(searchWidget, {
