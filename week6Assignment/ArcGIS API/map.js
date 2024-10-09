@@ -18,7 +18,7 @@ require([
       });
 
       let map = new Map({
-        basemap: "hybrid",
+        basemap: "topo-vector",
         ground: {
           layers: [layer]
         }
@@ -82,7 +82,8 @@ require([
             geometry: point,
             symbol: markerSymbol,
             popupTemplate: {
-              title: key + ": " + value.placename + ", " + value.date
+              title: key + ": " + value.placename + ", " + value.date,
+              content: "These are some of the places I love to go on vacation."
             }
           });
 
@@ -122,12 +123,7 @@ require([
                     }
                 }]
                 }};
-                const source = [{
-                    layer: graphicsLayer,
-                    name: "Vacation Spots"
-                    
-              
-                   }];
+                
                    
                    view.on("click", function(event) {
                     view.hitTest(event).then(function(response) {
@@ -136,16 +132,22 @@ require([
                         if (graphic) {
                           view.goTo({
                             target: graphic.geometry, 
-                            zoom: 15 // Adjust the zoom level as needed
+                            zoom: 15 
                           })
                         }
                       }
                     })
                   })
               
+                  const source = [{
+                    layer: graphicsLayer,
+                    name: "Vacation Spots"
+                    
+              
+                   }];
                     const searchWidget = new Search({
                         view: view,
-                        sources: source,
+                        sources: myStuff,
                         placeholder: "Places",
                         searchFields: ["placename", "city", "country"],
                         displayField: "placename",
