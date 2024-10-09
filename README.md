@@ -8,3 +8,5 @@ I changed the symbology of the points as well as the basemap. In the popups I al
 I included a function that zooms to the point that you click on.
 I created a clustering effect to group points.
 I added a search bar that allows users to search for a city.
+
+<>https://devonborthwick.github.io/Assignment5/<>
